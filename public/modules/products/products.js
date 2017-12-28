@@ -46,11 +46,22 @@ angular.module('myapp').directive('productsModule',function($rootScope,$http,$wi
                         price:scope.var.newprod.product_price
                     }
                     console.log(edit_product);
+                    var prod=angular.lowercase(edit_product.name); 
+                    $http.get('/api/products').success(function(c){
+                        for(var i=0;i<c.length;i++){
+                            var products=angular.lowercase(c[i].name);
+                            if(prod==products){
+                                $window.alert('Product Already Exists.')
+                                return false;
+                            }
+                        } 
+                    
                     $http.put('/api/products/'+scope.var.pid,edit_product).success(function(v){
                         console.log(v);
                         $('#edit-product').modal('hide');
                         scope.fn.getProducts();
                     });
+                });
                 },
                 deleteProduct:function(id){
                     console.log(id);

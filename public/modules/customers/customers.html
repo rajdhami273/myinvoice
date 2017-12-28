@@ -1,13 +1,16 @@
 <h3>Customers</h3>
 <div>
-    <div><button class="btn" ng-click='fn.newCustomer()' style="float:right;">Add Customer</button></div>
+    <div><button class="btn btn-default btn-sm pull-right" ng-click='fn.newCustomer()' style="float:right;">Add Customer</button></div>
 </div>
 <div class="table-responsive">
     <table class='table'>
+        <thead>
         <th>Customer Id</th>
         <th>Customer Name</th>
         <th>Address</th>
         <th>Phone no.</th>
+    </thead>
+    <tbody>
         <tr ng-repeat='c in var.customers'>
             <td>{{c.id}}</td>
             <td>{{c.name}}</td>
@@ -26,6 +29,7 @@
         <tr ng-if='var.customers==undefined'>
             <td colspan="100%" style="text-align:center;">Loading...</td>
         </tr>
+    </tbody>
     </table>
 </div>
 

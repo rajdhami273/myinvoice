@@ -182,6 +182,7 @@
                         scope.var.products=v;
                     });
                 },
+                
                 init:function(){
                     scope.var={
                         invoice:{

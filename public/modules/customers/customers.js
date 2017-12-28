@@ -49,12 +49,22 @@ angular.module('myapp').directive('customersModule',function($rootScope,$http,$w
                         address:scope.var.newcust.customer_address,
                         phone:scope.var.newcust.customer_phone
                     }
+                    var name=angular.lowercase(edit_customer.name);
                     console.log(edit_customer);
+                    $http.get('/api/customers').success(function(c){
+                        for(var i=0;i<c.length;i++){
+                            var names=angular.lowercase(c[i].name);
+                            if(name==names){
+                                $window.alert('Customer Already Exists.')
+                                return false;
+                            }
+                        }
                     $http.put('/api/customers/'+scope.var.cid,edit_customer).success(function(v){
                         console.log(v);
                         $('#edit-customer').modal('hide');
                         scope.fn.getCustomers();
                     });
+                })
                 },
                 deleteCustomer:function(id){
                     $http.delete('/api/customers/'+id).success(function(v){
