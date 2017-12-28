@@ -1,4 +1,4 @@
-angular.module('myapp').directive('invoicesModule',function($http,$rootScope,$window,$filter){
+ angular.module('myapp').directive('invoicesModule',function($http,$rootScope,$window,$filter){
     return{
         restrict:'E',
         templateUrl:'modules/invoices/invoices.html',
@@ -8,12 +8,12 @@ angular.module('myapp').directive('invoicesModule',function($http,$rootScope,$wi
                     scope.var.invoice.customer_name='0';
                     var inv={
                         customer_id:parseInt(scope.var.invoice.customer_name),
-                        discount:parseFloat(scope.fn.getTotalDiscount()),
+                        discount:0,
                         total:parseFloat(scope.fn.getAllTotal())
                     }
-                    console.log(inv.customer_id);
+
                     $http.post('/api/invoices',inv).success(function(v){
-                        console.log(v);
+                        
                         scope.var.invoice.id=v.id;
                         scope.var.invoice={
                             id:v.id,
@@ -28,9 +28,9 @@ angular.module('myapp').directive('invoicesModule',function($http,$rootScope,$wi
                 },
                 
                 editInvoice:function(id){
-                    console.log(id);
+                    
                     $http.get('/api/invoices/'+id).success(function(v){
-                        console.log(v.customer_id+'');
+                        
                         $http.get('/api/invoices/'+id+'/items').success(function(a){
                             var prods=[];
                             for(var i=0;i<a.length;i++){
@@ -43,8 +43,7 @@ angular.module('myapp').directive('invoicesModule',function($http,$rootScope,$wi
                                     quantity:a[i].quantity
                                 });
                             };
-                            console.log(v.discount);
-                            console.log(prods);
+                            
                             scope.var.invoice={
                                 id:v.id,
                                 customer_name:v.customer_id+'',
@@ -58,7 +57,7 @@ angular.module('myapp').directive('invoicesModule',function($http,$rootScope,$wi
                 },
                 getInvoices:function(){
                     $http.get('/api/invoices').success(function(v){
-                        console.log(v);
+                        
                         for(var i=0;i<v.length;i++){
                             var customer=scope.fn.getCustomerInfo(v[i].customer_id);
                             if(!customer){
@@ -70,7 +69,7 @@ angular.module('myapp').directive('invoicesModule',function($http,$rootScope,$wi
                         scope.var.invoices=v;
                     });
                 },
-                getCustomerInfo:function(id,a){console.log(scope.var.customers[2][1]);
+                getCustomerInfo:function(id,a){
                     for(var i=0;i<scope.var.customers.length;i++){
                         if(scope.var.customers[i].id==id){
                             if(a==undefined){
@@ -140,7 +139,7 @@ angular.module('myapp').directive('invoicesModule',function($http,$rootScope,$wi
                     
                 },
                 deleteInvoice:function(id){
-                    console.log(id);
+                    
                     $http.delete('/api/invoices/'+id).success(function(){
                         scope.fn.getInvoices();
                     });
@@ -154,10 +153,12 @@ angular.module('myapp').directive('invoicesModule',function($http,$rootScope,$wi
                 updateCustomers:function(){
                     var cust={
                         customer_id:parseInt(scope.var.invoice.customer_name),
-                        discount:parseFloat(scope.fn.getTotalDiscount()),
-                        total:parseFloat(scope.fn.getTotalPrice())
+                        discount:parseFloat(scope.var.invoice.discount),
+                        total:parseFloat(scope.fn.getAllTotal())
                     }
+                    console.log(cust);
                     $http.put('/api/invoices/'+scope.var.invoice.id,cust).success(function(v){
+                        console.log(v);
                         scope.fn.getInvoices();
                     });
                 },
