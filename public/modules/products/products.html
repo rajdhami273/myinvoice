@@ -1,0 +1,88 @@
+<h3>Products</h3>
+<div>
+    <div><button class="btn" ng-click='fn.newProduct()' style="float:right;">Add Product</button></div>
+</div>
+<div class="table-responsive">
+    <table class='table'>
+        <th>Product Id</th>
+        <th>Product Name</th>
+        <th>Price</th>
+        <tr ng-repeat='p in var.products'>
+            <td>{{p.id}}</td>
+            <td>{{p.name}}</td>
+            <td>${{p.price}}</td>
+            <td>
+                <button ng-click='fn.editProduct(p.id)'>Edit</button>
+            </td>
+            <td>
+                <button ng-click='fn.deleteProduct(p.id)'>Delete</button>
+            </td>
+        </tr>
+        <tr ng-if='var.products.length<=0'>
+            <td colspan="100%" style="text-align:center;">No invoice</td>
+        </tr>
+        <tr ng-if='var.products==undefined'>
+            <td colspan="100%" style="text-align:center;">Loading...</td>
+        </tr>
+    </table>
+</div>
+
+<div class="modal fade" id="new-product">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Add New Product</h4>
+            </div>
+            <div class="modal-body">
+                <form onsubmit="return false;" >
+                    <div class="form-group">
+                        <label>Product Name</label>
+                        <input class="form-control" style="text-align:center;" ng-model='var.newprod.product_name' placeholder="Product Name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Product Price</label>
+                        <input class="form-control" style="text-align:center;" ng-model='var.newprod.product_price' placeholder="Product Price" required>
+                    </div>
+                    
+                    <button class="btn btn-default btn-sm" ng-click="fn.addProduct()">Add Product</button>
+                    
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="edit-product">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Add New Product</h4>
+            </div>
+            <div class="modal-body">
+                <form onsubmit="return false;" >
+                    <div class="form-group">
+                        <label>Product Name</label>
+                        <input class="form-control" style="text-align:center;" ng-model='var.newprod.product_name' placeholder="Product Name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Product Price</label>
+                        <input class="form-control" style="text-align:center;" ng-model='var.newprod.product_price' placeholder="Product Price" required>
+                    </div>
+                    
+                    <button class="btn btn-default btn-sm" ng-click="fn.updateProduct()">Update Product</button>
+                    
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

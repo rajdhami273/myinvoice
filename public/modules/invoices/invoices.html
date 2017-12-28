@@ -1,0 +1,121 @@
+<h3>Invoice</h3><hr>
+<div>
+    <div><button class="btn btn-default btn-sm pull-right" ng-click='fn.newInvoice()' style="float:right;">Add Invoice</button></div>
+</div>
+<div class="table-responsive">
+    <table class='table'>
+        <thead>
+        <th>Invoice Id</th>
+        <th>Customer Name</th>
+        <th>Discount</th>
+        <th>Total</th>
+        </thead>
+        <tbody>
+        <tr ng-repeat='inv in var.invoices'>
+            <td>{{inv.id}}</td>
+            <td>{{inv.customer_name}}</td>
+            <td>{{inv.discount}}%</td>
+            <td>{{inv.total}}</td>
+            <td>
+                <button ng-click='fn.editInvoice(inv.id)'>Edit</button>
+                <button ng-click='fn.deleteInvoice(inv.id)'>Delete</button>
+            </td>
+        </tr>
+        <tr ng-if='var.invoices.length<=0'>
+            <td colspan="100%" style="text-align:center;">No invoice</td>
+        </tr>
+        <tr ng-if='var.invoices==undefined'>
+            <td colspan="100%" style="text-align:center;">Loading...</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="modal fade" id="new-invoice">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Add Invoice</h4>
+                </div>
+                <div class="modal-body">
+                    <form onsubmit="return false;">
+                        <div class="form-group">
+                            <label>Customer</label>
+                            <select class="form-control" ng-model='var.invoice.customer_name' ng-change='fn.updateCustomers()'>
+                                <option value='0' disabled>Select Customer</option>
+                                <option ng-repeat='cust in var.customers' value='{{cust.id}}'>{{cust.name}}</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Product</label>
+                            <select class="form-control" ng-model='var.invoice.product'>
+                                <option value='-1' disabled>Select product</option>
+                                <option ng-repeat='prod in var.products' value='{{$index}}'>{{prod.name}}</option>
+                            </select>
+                        </div>
+                        <button type="button" class="btn btn-default btn-sm" ng-click="fn.addProductToList()" style="margin:10px 0;">Add Product</button>
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <th style="width:40%">Product</th>
+                                    <th style="width:20%;">Quantity</th>
+                                    <th style="width:20%;">Rate</th>
+                                    <th style="width:20%;">Total</th>
+                                    <th style="width:10%;">
+                                    </th>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat='product in var.invoice.products'>
+                                        <td>{{product.name}}</td>
+                                        <td class="form-group">
+                                            <input class="form-control" style="text-align:center;" ng-model='product.quantity' ng-blur="fn.updateQuantity(product)">
+                                        </td>
+                                        <td>
+                                            {{product.price}}
+                                        </td>
+                                        <td>
+                                           {{fn.getEachTotal(product)}}
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-default btn-sm" ng-click="fn.deleteItem($index)">Delete</button>
+                                        </td>
+                                    </tr>
+                                    <tr ng-if='var.invoice.products.length<=0'>
+                                        <td colspan="100%" style="text-align:center;">
+                                            No Product added
+                                        </td>
+                                    </tr>
+                                    <tr ng-if='var.invoice.products.length>0'>
+                                        <td>
+                                            Discount (%)
+                                        </td>
+                                        <td class="form-group">
+                                            <input class="form-control" style="text-align:center;" ng-model="var.invoice.discount" ng-change="fn.updateCustomers()">
+                                        </td>
+                                        <td></td>
+                                        <td >
+                                           {{fn.getTotalDiscount()}}
+                                        </td>
+                                    </tr>
+                                    <tr ng-if='var.invoice.products.length>0'>
+                                        <td colspan="3">
+                                            Total
+                                        </td>   
+                                        <td>
+                                            {{fn.getAllTotal()}}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" >Close</button>
+                </div>
+            </div>
+        </div>
+    </div>

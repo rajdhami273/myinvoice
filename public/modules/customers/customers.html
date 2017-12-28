@@ -1,0 +1,98 @@
+<h3>Customers</h3>
+<div>
+    <div><button class="btn" ng-click='fn.newCustomer()' style="float:right;">Add Customer</button></div>
+</div>
+<div class="table-responsive">
+    <table class='table'>
+        <th>Customer Id</th>
+        <th>Customer Name</th>
+        <th>Address</th>
+        <th>Phone no.</th>
+        <tr ng-repeat='c in var.customers'>
+            <td>{{c.id}}</td>
+            <td>{{c.name}}</td>
+            <td>{{c.address}}</td>
+            <td>{{c.phone}}</td>
+            <td>
+                <button ng-click='fn.editCustomer(c.id)'>Edit</button>
+            </td>
+            <td>
+                <button ng-click='fn.deleteCustomer(c.id)'>Delete</button>
+            </td>
+        </tr>
+        <tr ng-if='var.customers.length<=0'>
+            <td colspan="100%" style="text-align:center;">No invoice</td>
+        </tr>
+        <tr ng-if='var.customers==undefined'>
+            <td colspan="100%" style="text-align:center;">Loading...</td>
+        </tr>
+    </table>
+</div>
+
+<div class="modal fade" id="new-customer">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Add New Customer</h4>
+            </div>
+            <div class="modal-body">
+                <form onsubmit="return false;" >
+                    <div class="form-group">
+                        <label>Customer Name</label>
+                        <input class="form-control" style="text-align:center;" ng-model='var.newcust.customer_name' placeholder="Customer Name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Address</label>
+                        <input class="form-control" style="text-align:center;" ng-model='var.newcust.customer_address' placeholder="Customer Address" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Phone Number</label>
+                        <input class="form-control" style="text-align:center;" ng-model='var.newcust.customer_phone' placeholder="Customer Phone no." required>
+                    </div>
+                    
+                     <button class="btn btn-default btn-sm" ng-click="fn.addCustomer()">Add Customer</button>
+                    
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="edit-customer">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Edit Customer</h4>
+            </div>
+            <div class="modal-body">
+                <form onsubmit="return false;" >
+                    <div class="form-group">
+                        <label>Customer Name</label>
+                        <input class="form-control" style="text-align:center;" ng-model='var.newcust.customer_name' placeholder="Customer Name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Address</label>
+                        <input class="form-control" style="text-align:center;" ng-model='var.newcust.customer_address' placeholder="Customer Address" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Phone Number</label>
+                        <input class="form-control" style="text-align:center;" ng-model='var.newcust.customer_phone' placeholder="Customer Phone no." required>
+                    </div>
+                    
+                     <button class="btn btn-default btn-sm" ng-click="fn.updateCustomer()">Update Customer</button>
+                    
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

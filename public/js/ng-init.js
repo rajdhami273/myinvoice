@@ -1,0 +1,77 @@
+angular.module('myapp',['ngRoute','oc.lazyLoad'])
+.config(function($routeProvider,$ocLazyLoadProvider){
+   $ocLazyLoadProvider.config({
+        modules:[
+            {
+                name:'products',
+                files:[
+                    'modules/products/products.js'
+                ],
+                cache:false
+            },
+            {
+                name:'customers',
+                files:[
+                    'modules/customers/customers.js'
+                ],
+                cache:false
+            },
+            {
+                name:'invoices',
+                files:[
+                    'modules/invoices/invoices.js'
+                ],
+                cache:false
+            }
+        ]
+    });
+    $routeProvider
+    .when('/products',{
+        template:'<products-module></products-module>',
+        resolve:{
+            lazy:['$ocLazyLoad',function($ocLazyLoad){
+                return $ocLazyLoad.load('products');
+            }]
+        }
+    }).when('/customers',{
+        template:'<customers-module></customers-module>',
+        resolve:{
+            lazy:['$ocLazyLoad',function($ocLazyLoad){
+                return $ocLazyLoad.load('customers');
+            }]
+        }
+    }).when('/invoices',{
+        template:'<invoices-module></invoices-module>',
+        resolve:{
+            lazy:['$ocLazyLoad',function($ocLazyLoad){
+                return $ocLazyLoad.load('invoices');
+            }]
+        }
+    }).otherwise({
+        template:'<invoices-module></invoices-module>',
+        resolve:{
+            lazy:['$ocLazyLoad',function($ocLazyLoad){
+                return $ocLazyLoad.load('invoices');
+            }]
+        }
+    });
+})
+.factory('$menu',function(){
+    return [
+        {
+            name:'Orders',
+            url:'#/orders'
+        },
+        {
+            name:'Blank',
+            url:'#/blank'
+        }
+    ]
+})
+.run(function($rootScope,$http,$menu){
+
+    $rootScope.config={
+        current_page:'blank'
+    };
+    $rootScope.menu=$menu;
+});
